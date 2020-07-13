@@ -3,11 +3,11 @@ module.exports = function(app, server) {
   const fs = require("fs");
   const path = require('path');
   const os = require('os');
-  const logger = require('log4js').getLogger('api');
   const jsonwebtoken = require('jsonwebtoken');
   const jwt = require('express-jwt');
   const _ = require('lodash');
   const cfg = require('./config.js');
+  const logger = cfg.log4js.getLogger('api');
   const util = require('./util');
 
   const channelManager = require('./channel-manager');
@@ -345,7 +345,9 @@ module.exports = function(app, server) {
 
 
   function orgFromHttpBody(body){
-    return {orgId: body.orgId, orgIp: body.orgIp, peer0Port: body.peerPort, wwwPort: body.wwwPort}
+    let orgBody = {orgId: body.orgId, orgIp: body.orgIp, peer0Port: body.peerPort, wwwPort: body.wwwPort};
+
+    return orgBody;
   }
 
   /**
