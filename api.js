@@ -335,12 +335,23 @@ module.exports = function(app, server) {
     res.json(await req.fabricStarterClient.addOrgToChannel(req.params.channelId, orgFromHttpBody(req.body)));
   }));
 
+  app.post('/service/accept/orgs', asyncMiddleware((req, res) => {
+    logger.info('Orgs to service request: ', req.body);
+    let orgMspIdsArray = _.isArray(req.body) ? req.body : [req.body];
+    this.orgsToAccept = orgMspIdsArray;
+    res.json("OK")
+  }));
+
   app.post('/integration/service/orgs', asyncMiddleware(async (req, res, next) => {
     logger.info('Integration service request: ', req.body);
-    let client = new FabricStarterClient();
-    await client.init();
-    await client.loginOrRegister(cfg.enrollId, cfg.enrollSecret);
-    res.json(await client.addOrgToChannel(cfg.DNS_CHANNEL, orgFromHttpBody(req.body)));
+    let org = orgFromHttpBody(req.body)
+    if (!this.orgsToAccept || _.includes(this.orgsToAccept, org.orgId)) {
+      let client = new FabricStarterClient();
+      await client.init();
+      await client.loginOrRegister(cfg.enrollId, cfg.enrollSecret);
+      res.json(await client.addOrgToChannel(cfg.DNS_CHANNEL, org));
+    }
+    res.status(301).json(`Org ${org.orgId} is not allowed`);
   }));
 
 
