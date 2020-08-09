@@ -2,7 +2,7 @@
 REST API server and client for Hyperledger Fabric built with NodeJS SDK.
 
 See usage examples at 
-[fabric-starter](https://github.com/olegabu/fabric-starter#use-rest-api-to-query-and-invoke-chaincodes).
+[fabric-starter](https://github.com/shiqinfeng1/fabric-starter#use-rest-api-to-query-and-invoke-chaincodes).
 
 To run test in development mode (from a developer's machine and not within container)
 Set environment:
@@ -30,7 +30,7 @@ npm start
 ```
 Build docker image.
 ```bash
-docker build -t olegabu/fabric-starter-rest .
+docker build -t shiqinfeng1/fabric-starter-rest .
 ```
 
 
